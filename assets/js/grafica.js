@@ -16,6 +16,15 @@ d3.json("assets/data/engagement.json").then(data => {
         return accumulator;
     }, []);
 
+    const influenciaLookup = data.reduce((acc, item) => {
+        acc[item.name_user] = item.influencia;
+        return acc;
+    }, {});
+
+    const barWidthScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.influencia)])
+        .range([1, 100]); // Puedes ajustar este rango según el ancho mínimo y máximo deseado de las barras
+
     const chart = StackedBarChart(transformedData, {
         x: d => d.x,
         y: d => d.y,
@@ -25,9 +34,10 @@ d3.json("assets/data/engagement.json").then(data => {
         zDomain: ['Retweets', 'Favoritos'],
         yLabel: 'Número de seguidores',
         colors: ['#1f77b4', '#ff7f0e'],
-        width: 1400,
+        width: 1800,
         height: 600,
-        marginLeft: 100
+        marginLeft: 100,
+        barWidth: (i) => barWidthScale(influenciaLookup[transformedData[i].x])
     });
 
 

@@ -24,6 +24,7 @@ function StackedBarChart(data, {
     yFormat, // a format specifier string for the y-axis
     yLabel, // a label for the y-axis
     colors = d3.schemeTableau10, // array of colors
+    barWidth,
 } = {}) {
     // Compute values.
     const X = d3.map(data, x);
@@ -116,10 +117,16 @@ function StackedBarChart(data, {
         .selectAll("rect")
         .data(d => d)
         .join("rect")
-        .attr("x", ({i}) => xScale(X[i]))
+        //.attr("x", ({i}) => xScale(X[i]))
+        .attr("x", (d) => {
+            const currentBarWidth = barWidth ? barWidth(d.i) : xScale.bandwidth();
+            const xOffset = (xScale.bandwidth() - currentBarWidth) / 2;
+            return xScale(X[d.i]) + xOffset;
+        })
         .attr("y", ([y1, y2]) => Math.min(yScale(y1), yScale(y2)))
         .attr("height", ([y1, y2]) => Math.abs(yScale(y1) - yScale(y2)))
-        .attr("width", xScale.bandwidth());
+        .attr("width", barWidth ? (d) => barWidth(d.i) : xScale.bandwidth());
+        // .attr("width", xScale.bandwidth());
 
     if (title) bar.append("title")
         .text(({i}) => title(i));
