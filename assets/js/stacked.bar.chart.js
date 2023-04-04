@@ -74,9 +74,25 @@ function StackedBarChart(data, {
 
     const svg = d3.create("svg")
         .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
+        .attr("height", height+100)
+        .attr("viewBox", [0, 0, width, height+100])
         .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+    svg.selectAll("text")
+        .attr("transform", "rotate(90)")
+        .attr("x", "10")
+        .attr("y", "-3")
+        .style("text-anchor", "start");
+
+    svg.append("g")
+        .attr("transform", `translate(0,${yScale(0)})`)
+        .call(xAxis);
+
+    svg.selectAll("text")
+        .attr("transform", "rotate(90)")
+        .attr("x", "10")
+        .attr("y", "-3")
+        .style("text-anchor", "start")
+    ;
 
     svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
@@ -107,10 +123,6 @@ function StackedBarChart(data, {
 
     if (title) bar.append("title")
         .text(({i}) => title(i));
-
-    svg.append("g")
-        .attr("transform", `translate(0,${yScale(0)})`)
-        .call(xAxis);
 
     return Object.assign(svg.node(), {scales: {color}});
 }

@@ -1,15 +1,14 @@
-// Cargar los datos
 d3.json("assets/data/engagement.json").then(data => {
-    // Convertir los datos al formato requerido por StackedBarChart
+
     const transformedData = data.reduce((accumulator, item) => {
         accumulator.push({
-            x: item.user_id,
+            x: item.name_user,
             y: item.followers_count,
             z: 'Retweets',
             value: item.media_retweets
         });
         accumulator.push({
-            x: item.user_id,
+            x: item.name_user,
             y: item.followers_count,
             z: 'Favoritos',
             value: item.media_favoritos
@@ -21,15 +20,16 @@ d3.json("assets/data/engagement.json").then(data => {
         x: d => d.x,
         y: d => d.y,
         z: d => d.z,
-        xDomain: data.map(d => d.user_id),
+        xDomain: data.map(d => d.name_user),
         yDomain: [0, d3.max(data, d => d.followers_count)],
         zDomain: ['Retweets', 'Favoritos'],
-        yLabel: 'Followers Count',
+        yLabel: 'Número de seguidores',
         colors: ['#1f77b4', '#ff7f0e'],
-        width: 800,
-        height: 400,
+        width: 1400,
+        height: 600,
         marginLeft: 100
     });
 
-    $("#grafica").html(chart);
+
+    $("#id-grafica-svg").html(chart);
 });
