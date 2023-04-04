@@ -1,4 +1,4 @@
-d3.json("assets/data/engagement.json").then(data => {
+d3.json("assets/data/engagement3.json").then(data => {
 
     const transformedData = data.reduce((accumulator, item) => {
         accumulator.push({
@@ -23,7 +23,7 @@ d3.json("assets/data/engagement.json").then(data => {
 
     const barWidthScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.influencia)])
-        .range([1, 100]); // Puedes ajustar este rango según el ancho mínimo y máximo deseado de las barras
+        .range([10, 80]); // Ajustando esto pudemos ajustar el ancho de la barra
 
     const chart = StackedBarChart(transformedData, {
         x: d => d.x,

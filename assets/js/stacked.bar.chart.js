@@ -89,11 +89,13 @@ function StackedBarChart(data, {
         .call(xAxis);
 
     svg.selectAll("text")
-        .attr("transform", "rotate(90)")
-        .attr("x", "10")
+        .attr("transform", "rotate(270)")
+        .attr("x", "-120")
         .attr("y", "-3")
         .style("text-anchor", "start")
     ;
+    svg.selectAll(".tick text")
+        .style("font-size", "12px");
 
     svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
