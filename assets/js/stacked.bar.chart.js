@@ -1,6 +1,3 @@
-// Copyright 2021 Observable, Inc.
-// Released under the ISC license.
-// https://observablehq.com/@d3/stacked-bar-chart
 function StackedBarChart(data, {
     x = (d, i) => i, // given d in data, returns the (ordinal) x-value
     y = d => d, // given d in data, returns the (quantitative) y-value
@@ -119,7 +116,6 @@ function StackedBarChart(data, {
         .selectAll("rect")
         .data(d => d)
         .join("rect")
-        //.attr("x", ({i}) => xScale(X[i]))
         .attr("x", (d) => {
             const currentBarWidth = barWidth ? barWidth(d.i) : xScale.bandwidth();
             const xOffset = (xScale.bandwidth() - currentBarWidth) / 2;
@@ -128,10 +124,12 @@ function StackedBarChart(data, {
         .attr("y", ([y1, y2]) => Math.min(yScale(y1), yScale(y2)))
         .attr("height", ([y1, y2]) => Math.abs(yScale(y1) - yScale(y2)))
         .attr("width", barWidth ? (d) => barWidth(d.i) : xScale.bandwidth());
-        // .attr("width", xScale.bandwidth());
+
 
     if (title) bar.append("title")
         .text(({i}) => title(i));
+
+
 
     return Object.assign(svg.node(), {scales: {color}});
 }
